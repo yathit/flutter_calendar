@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:date_utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar/calendar_tile.dart';
+import 'package:flutter_calendar/date_utils.dart';
 import 'package:tuple/tuple.dart';
 
 typedef DayBuilder(BuildContext context, DateTime day);
@@ -51,10 +51,10 @@ class _CalendarState extends State<Calendar> {
     selectedMonthsDays = Utils.daysInMonth(today);
     var firstDayOfCurrentWeek = Utils.firstDayOfWeek(today);
     var lastDayOfCurrentWeek = Utils.lastDayOfWeek(today);
-    selectedWeeksDays = Utils
-        .daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
-        .toList()
-        .sublist(0, 7);
+    selectedWeeksDays =
+        Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+            .toList()
+            .sublist(0, 7);
     _selectedDate = today;
     displayMonth = Utils.formatMonth(Utils.firstDayOfWeek(today));
   }
@@ -250,9 +250,9 @@ class _CalendarState extends State<Calendar> {
 
     setState(() {
       _selectedDate = today;
-      selectedWeeksDays = Utils
-          .daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
-          .toList();
+      selectedWeeksDays =
+          Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+              .toList();
       displayMonth = Utils.formatMonth(Utils.firstDayOfWeek(today));
     });
     _updateSelectedRange();
@@ -287,10 +287,10 @@ class _CalendarState extends State<Calendar> {
       var firstDayOfCurrentWeek = Utils.firstDayOfWeek(today);
       var lastDayOfCurrentWeek = Utils.lastDayOfWeek(today);
       updateSelectedRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek);
-      selectedWeeksDays = Utils
-          .daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
-          .toList()
-          .sublist(0, 7);
+      selectedWeeksDays =
+          Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+              .toList()
+              .sublist(0, 7);
       displayMonth = Utils.formatMonth(Utils.firstDayOfWeek(today));
     });
   }
@@ -301,10 +301,10 @@ class _CalendarState extends State<Calendar> {
       var firstDayOfCurrentWeek = Utils.firstDayOfWeek(today);
       var lastDayOfCurrentWeek = Utils.lastDayOfWeek(today);
       updateSelectedRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek);
-      selectedWeeksDays = Utils
-          .daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
-          .toList()
-          .sublist(0, 7);
+      selectedWeeksDays =
+          Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+              .toList()
+              .sublist(0, 7);
       displayMonth = Utils.formatMonth(Utils.firstDayOfWeek(today));
     });
   }
@@ -330,9 +330,9 @@ class _CalendarState extends State<Calendar> {
 
       setState(() {
         _selectedDate = selected;
-        selectedWeeksDays = Utils
-            .daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
-            .toList();
+        selectedWeeksDays =
+            Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+                .toList();
         displayMonth = Utils.formatMonth(Utils.firstDayOfWeek(selected));
         _updateSelectedRange();
       });
@@ -396,9 +396,9 @@ class _CalendarState extends State<Calendar> {
     var lastDayOfCurrentWeek = Utils.lastDayOfWeek(day);
     setState(() {
       _selectedDate = day;
-      selectedWeeksDays = Utils
-          .daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
-          .toList();
+      selectedWeeksDays =
+          Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+              .toList();
     });
     if (widget.onDateSelected != null) {
       widget.onDateSelected(day);
