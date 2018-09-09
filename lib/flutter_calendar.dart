@@ -89,9 +89,9 @@ class _CalendarState extends State<Calendar> {
     }
 
     if (widget.showTodayAction) {
-      leftInnerIcon = new InkWell(
-        child: new Text('Today'),
-        onTap: resetToToday,
+      leftInnerIcon = new IconButton(
+        icon: Icon(Icons.today),
+        onPressed: resetToToday,
       );
     } else {
       leftInnerIcon = new Container();
@@ -102,10 +102,15 @@ class _CalendarState extends State<Calendar> {
       children: [
         leftOuterIcon ?? new Container(),
         leftInnerIcon ?? new Container(),
-        new Text(
-          displayMonth,
-          style: new TextStyle(
-            fontSize: 20.0,
+        Expanded(
+          child: new Text(
+            displayMonth,
+            style: new TextStyle(
+              fontSize: 20.0,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.clip,
+            textAlign: TextAlign.center,
           ),
         ),
         rightInnerIcon ?? new Container(),
