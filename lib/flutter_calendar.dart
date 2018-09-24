@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar/calendar_tile.dart';
-import 'package:flutter_calendar/date_utils.dart';
 import 'package:tuple/tuple.dart';
+import 'package:ydn/date_utils.dart';
 
 typedef DayBuilder(BuildContext context, DateTime day);
 
@@ -33,7 +33,6 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  final calendarUtils = new Utils();
   DateTime today = new DateTime.now();
   List<DateTime> selectedMonthsDays;
   Iterable<DateTime> selectedWeeksDays;
@@ -48,15 +47,15 @@ class _CalendarState extends State<Calendar> {
   void initState() {
     super.initState();
     isExpanded = widget.isExpanded == true;
-    selectedMonthsDays = Utils.daysInMonth(today);
-    var firstDayOfCurrentWeek = Utils.firstDayOfWeek(today);
-    var lastDayOfCurrentWeek = Utils.lastDayOfWeek(today);
+    selectedMonthsDays = DateUtils.daysInMonth(today);
+    var firstDayOfCurrentWeek = DateUtils.firstDayOfWeek(today);
+    var lastDayOfCurrentWeek = DateUtils.lastDayOfWeek(today);
     selectedWeeksDays =
-        Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+        DateUtils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
             .toList()
             .sublist(0, 7);
     _selectedDate = today;
-    displayMonth = Utils.formatMonth(Utils.firstDayOfWeek(today));
+    displayMonth = DateUtils.formatMonth(DateUtils.firstDayOfWeek(today));
   }
 
   Widget get nameAndIconRow {
@@ -143,7 +142,7 @@ class _CalendarState extends State<Calendar> {
     List<DateTime> calendarDays =
         isExpanded ? selectedMonthsDays : selectedWeeksDays;
 
-    Utils.weekdays.forEach(
+    DateUtils.weekdays.forEach(
       (day) {
         dayWidgets.add(
           new CalendarTile(
@@ -163,7 +162,7 @@ class _CalendarState extends State<Calendar> {
           monthEnded = true;
         }
 
-        if (Utils.isFirstDayOfMonth(day)) {
+        if (DateUtils.isFirstDayOfMonth(day)) {
           monthStarted = true;
         }
 
@@ -171,7 +170,7 @@ class _CalendarState extends State<Calendar> {
           onDateSelected: () => handleSelectedDateAndUserCallback(day),
           date: day,
           dateStyles: configureDateStyle(monthStarted, monthEnded),
-          isSelected: Utils.isSameDay(selectedDate, day),
+          isSelected: DateUtils.isSameDay(selectedDate, day),
         );
 
         if (this.widget.dayBuilder != null) {
@@ -213,7 +212,7 @@ class _CalendarState extends State<Calendar> {
       return new Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          new Text(Utils.fullDayFormat(selectedDate)),
+          new Text(DateUtils.fullDayFormat(selectedDate)),
           new IconButton(
             iconSize: 20.0,
             padding: new EdgeInsets.all(0.0),
@@ -250,15 +249,15 @@ class _CalendarState extends State<Calendar> {
 
   void resetToToday() {
     today = new DateTime.now();
-    var firstDayOfCurrentWeek = Utils.firstDayOfWeek(today);
-    var lastDayOfCurrentWeek = Utils.lastDayOfWeek(today);
+    var firstDayOfCurrentWeek = DateUtils.firstDayOfWeek(today);
+    var lastDayOfCurrentWeek = DateUtils.lastDayOfWeek(today);
 
     setState(() {
       _selectedDate = today;
       selectedWeeksDays =
-          Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+          DateUtils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
               .toList();
-      displayMonth = Utils.formatMonth(Utils.firstDayOfWeek(today));
+      displayMonth = DateUtils.formatMonth(DateUtils.firstDayOfWeek(today));
     });
     _updateSelectedRange();
     if (widget.onDateSelected != null) widget.onDateSelected(_selectedDate);
@@ -266,51 +265,51 @@ class _CalendarState extends State<Calendar> {
 
   void nextMonth() {
     setState(() {
-      today = Utils.nextMonth(today);
-      var firstDateOfNewMonth = Utils.firstDayOfMonth(today);
-      var lastDateOfNewMonth = Utils.lastDayOfMonth(today);
+      today = DateUtils.nextMonth(today);
+      var firstDateOfNewMonth = DateUtils.firstDayOfMonth(today);
+      var lastDateOfNewMonth = DateUtils.lastDayOfMonth(today);
       updateSelectedRange(firstDateOfNewMonth, lastDateOfNewMonth);
-      selectedMonthsDays = Utils.daysInMonth(today);
-      displayMonth = Utils.formatMonth(today);
+      selectedMonthsDays = DateUtils.daysInMonth(today);
+      displayMonth = DateUtils.formatMonth(today);
     });
   }
 
   void previousMonth() {
     setState(() {
-      today = Utils.previousMonth(today);
-      var firstDateOfNewMonth = Utils.firstDayOfMonth(today);
-      var lastDateOfNewMonth = Utils.lastDayOfMonth(today);
+      today = DateUtils.previousMonth(today);
+      var firstDateOfNewMonth = DateUtils.firstDayOfMonth(today);
+      var lastDateOfNewMonth = DateUtils.lastDayOfMonth(today);
       updateSelectedRange(firstDateOfNewMonth, lastDateOfNewMonth);
-      selectedMonthsDays = Utils.daysInMonth(today);
-      displayMonth = Utils.formatMonth(today);
+      selectedMonthsDays = DateUtils.daysInMonth(today);
+      displayMonth = DateUtils.formatMonth(today);
     });
   }
 
   void nextWeek() {
     setState(() {
-      today = Utils.nextWeek(today);
-      var firstDayOfCurrentWeek = Utils.firstDayOfWeek(today);
-      var lastDayOfCurrentWeek = Utils.lastDayOfWeek(today);
+      today = DateUtils.nextWeek(today);
+      var firstDayOfCurrentWeek = DateUtils.firstDayOfWeek(today);
+      var lastDayOfCurrentWeek = DateUtils.lastDayOfWeek(today);
       updateSelectedRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek);
       selectedWeeksDays =
-          Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+          DateUtils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
               .toList()
               .sublist(0, 7);
-      displayMonth = Utils.formatMonth(Utils.firstDayOfWeek(today));
+      displayMonth = DateUtils.formatMonth(DateUtils.firstDayOfWeek(today));
     });
   }
 
   void previousWeek() {
     setState(() {
-      today = Utils.previousWeek(today);
-      var firstDayOfCurrentWeek = Utils.firstDayOfWeek(today);
-      var lastDayOfCurrentWeek = Utils.lastDayOfWeek(today);
+      today = DateUtils.previousWeek(today);
+      var firstDayOfCurrentWeek = DateUtils.firstDayOfWeek(today);
+      var lastDayOfCurrentWeek = DateUtils.lastDayOfWeek(today);
       updateSelectedRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek);
       selectedWeeksDays =
-          Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+          DateUtils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
               .toList()
               .sublist(0, 7);
-      displayMonth = Utils.formatMonth(Utils.firstDayOfWeek(today));
+      displayMonth = DateUtils.formatMonth(DateUtils.firstDayOfWeek(today));
     });
   }
 
@@ -330,15 +329,16 @@ class _CalendarState extends State<Calendar> {
     );
 
     if (selected != null) {
-      var firstDayOfCurrentWeek = Utils.firstDayOfWeek(selected);
-      var lastDayOfCurrentWeek = Utils.lastDayOfWeek(selected);
+      var firstDayOfCurrentWeek = DateUtils.firstDayOfWeek(selected);
+      var lastDayOfCurrentWeek = DateUtils.lastDayOfWeek(selected);
 
       setState(() {
         _selectedDate = selected;
         selectedWeeksDays =
-            Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+            DateUtils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
                 .toList();
-        displayMonth = Utils.formatMonth(Utils.firstDayOfWeek(selected));
+        displayMonth =
+            DateUtils.formatMonth(DateUtils.firstDayOfWeek(selected));
         _updateSelectedRange();
       });
       if (widget.onDateSelected != null) {
@@ -379,12 +379,12 @@ class _CalendarState extends State<Calendar> {
 
   void _updateSelectedRange() {
     if (isExpanded) {
-      var firstDateOfNewMonth = Utils.firstDayOfMonth(today);
-      var lastDateOfNewMonth = Utils.lastDayOfMonth(today);
+      var firstDateOfNewMonth = DateUtils.firstDayOfMonth(today);
+      var lastDateOfNewMonth = DateUtils.lastDayOfMonth(today);
       updateSelectedRange(firstDateOfNewMonth, lastDateOfNewMonth);
     } else {
-      var firstDayOfCurrentWeek = Utils.firstDayOfWeek(today);
-      var lastDayOfCurrentWeek = Utils.lastDayOfWeek(today);
+      var firstDayOfCurrentWeek = DateUtils.firstDayOfWeek(today);
+      var lastDayOfCurrentWeek = DateUtils.lastDayOfWeek(today);
       updateSelectedRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek);
     }
   }
@@ -397,12 +397,12 @@ class _CalendarState extends State<Calendar> {
   }
 
   void handleSelectedDateAndUserCallback(DateTime day) {
-    var firstDayOfCurrentWeek = Utils.firstDayOfWeek(day);
-    var lastDayOfCurrentWeek = Utils.lastDayOfWeek(day);
+    var firstDayOfCurrentWeek = DateUtils.firstDayOfWeek(day);
+    var lastDayOfCurrentWeek = DateUtils.lastDayOfWeek(day);
     setState(() {
       _selectedDate = day;
       selectedWeeksDays =
-          Utils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
+          DateUtils.daysInRange(firstDayOfCurrentWeek, lastDayOfCurrentWeek)
               .toList();
     });
     if (widget.onDateSelected != null) {
